@@ -3,6 +3,7 @@ package com.example.keinzhang.chef;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -87,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 return false;
             }
+
         });
 
         new Thread(new Runnable() {
@@ -104,31 +106,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        if (Client.socket.isConnected()) {
-                            int result = client.CheckLogin(mEmailView.getText().toString(), mPasswordView.getText().toString());
-                            if (result == -2) {
-                                Message msg = new Message();
-                                msg.what = 0;
-                                msg.arg1 = 0;
-                                handler.sendMessage(msg);
-                            } else if (result == -1) {
-                                Message msg = new Message();
-                                msg.what = 0;
-                                msg.arg1 = 1;
-                                handler.sendMessage(msg);
-                            } else {
-                                account = mEmailView.getText().toString();
-                                Intent intent = new Intent(LoginActivity.this, ViewOrderActivity.class);
-                                LoginActivity.this.finish();
+                                Intent intent = new Intent(LoginActivity.this,ViewOrderActivity.class);
                                 startActivity(intent);
+
+//                        if (Client.socket.isConnected()) {
+//                            int result = client.CheckLogin(mEmailView.getText().toString(), mPasswordView.getText().toString());
+//                            if (result == -2) {
+//                                Message msg = new Message();
+//                                msg.what = 0;
+//                                msg.arg1 = 0;
+//                                handler.sendMessage(msg);
+//                            } else if (result == -1) {
+//                                Message msg = new Message();
+//                                msg.what = 0;
+//                                msg.arg1 = 1;
+//                                handler.sendMessage(msg);
+//                            } else {
+//                                account = mEmailView.getText().toString();
+//                                Intent intent = new Intent(LoginActivity.this, ViewOrderActivity.class);
+//                                LoginActivity.this.finish();
+//                                startActivity(intent);
                             }
-                        } else {
-                            Message msg = new Message();
-                            msg.what = 0;
-                            msg.arg1 = 0;
-                            handler.sendMessage(msg);
-                        }
-                    }
+//                        } else {
+//                            Message msg = new Message();
+//                            msg.what = 0;
+//                            msg.arg1 = 0;
+//                            handler.sendMessage(msg);
+//                        }
+
                 }).start();
 
             }
