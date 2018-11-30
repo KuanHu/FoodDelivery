@@ -1,6 +1,6 @@
 # FoodDelivery
 
 Test Kuan Branch
-Test Leslie * 2
+Test Leslie
 
 Test Alex Branch
