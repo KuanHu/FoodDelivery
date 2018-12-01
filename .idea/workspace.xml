@@ -6,7 +6,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="141f8059-f76e-4ea2-ac6a-5afc4c2ebea9" name="Default" comment="" />
+    <list default="true" id="141f8059-f76e-4ea2-ac6a-5afc4c2ebea9" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChefClient/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ChefClient/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChefClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ChefClient/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChefClient/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ChefClient/app/app.iml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
