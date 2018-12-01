@@ -11,3 +11,7 @@ ChefClient/captures
 ChefClient/.externalNativeBuild
 .DS_Store
 .gradle
+.idea/caches/build_file_checksums.ser
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
