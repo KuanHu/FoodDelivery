@@ -51,7 +51,7 @@ public class ViewOrderActivity extends AppCompatActivity {
 //                    inventory = new HashMap<>();
                     for (Order order : orders) {
                         HashMap<String, String> map = new HashMap<>();
-                        map.put("order_id", "0e0l0e0m0e" + order.getID() + "");
+                        map.put("order_id", order.getID() + "");
                         map.put("status", order.getStatus());
                         map.put("account", order.getUser().getAccount());
                         map.put("customer_id",  1000000 + order.getUser().getId() +"");
