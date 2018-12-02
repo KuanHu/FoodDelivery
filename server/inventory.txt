@@ -1,4 +1,4 @@
-Onion Rings,3.5,400
-Chickens,7.0,500
-Burgers,5.0,443
-French Fries,2.5,449
+Burgers,5.0,493
+Chickens,7.0,550
+Onion Rings,3.5,50
+French Fries,2.5,499

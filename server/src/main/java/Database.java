@@ -18,38 +18,22 @@ import model.Food;
 import model.Order;
 
 public class Database {
-    private static final String PROTOCAL = "jdbc:derby:";
-
-    private static final String CREATE = "CREATE TABLE orders (order_id int primary key, "
-            + "account varchar(20),"
-            + "total double,"
-            + "status varchar(20))";
-
-    private static final String CREATE_DETAIL = "CREATE TABLE order_detail (order_id int, "
-            + "name varchar(20),"
-            + "price double,"
-            + "quantity int, primary key (order_id, name))";
-
-    private static final String CREATE_USER = "CREATE TABLE users (account varchar(20) primary key,"
-            + "password varchar(20))";
-
-
     Connection conn;
     Statement stat;
 
     public Database () {
         try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
-            File file = new File("/Users/hukuan/Downloads/rsdb");
+            Class.forName(DatabaseConstant.EMBEDDED_DRIVER).newInstance();
+            File file = new File(DatabaseConstant.DATABASE_PATH);
             //Check if the user use this project at first time.
             if (!file.exists()) {
                 file.mkdirs();
-                conn = DriverManager.getConnection(PROTOCAL + file+"/mydb.db"
+                conn = DriverManager.getConnection(DatabaseConstant.PROTOCAL + file+"/mydb.db"
                         + ";create=true");
                 stat = conn.createStatement();
                 create();
             } else {
-                conn = DriverManager.getConnection(PROTOCAL + file+"/mydb.db"
+                conn = DriverManager.getConnection(DatabaseConstant.PROTOCAL + file+"/mydb.db"
                         + ";create=false");
                 stat = conn.createStatement();
             }
@@ -66,9 +50,9 @@ public class Database {
 
     public void create() {
         try {
-            stat.execute(CREATE);
-            stat.execute(CREATE_DETAIL);
-            stat.execute(CREATE_USER);
+            stat.execute(DatabaseConstant.CREATE);
+            stat.execute(DatabaseConstant.CREATE_DETAIL);
+            stat.execute(DatabaseConstant.CREATE_USER);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -79,7 +63,7 @@ public class Database {
         ArrayList<Food> foods = new ArrayList<Food>();
         Scanner scanner;
         try {
-            scanner = new Scanner(new FileReader("inventory.txt"));
+            scanner = new Scanner(new FileReader(DatabaseConstant.INVENTORY));
             while (scanner.hasNextLine()) {
                 String[] temp = scanner.nextLine().split(",");
                 foods.add(new Food(temp[0], Double.parseDouble(temp[1])));
@@ -95,7 +79,7 @@ public class Database {
         Map<Food, Integer> foods = new HashMap<Food, Integer>();
         Scanner scanner;
         try {
-            scanner = new Scanner(new FileReader("inventory.txt"));
+            scanner = new Scanner(new FileReader(DatabaseConstant.INVENTORY));
             while (scanner.hasNextLine()) {
                 String[] temp = scanner.nextLine().split(",");
                 foods.put(new Food(temp[0], Double.parseDouble(temp[1])), Integer.parseInt(temp[2]));
@@ -110,14 +94,14 @@ public class Database {
     public void updateInventory() {
         try {
             Map<Food, Integer> stocks = new HashMap<Food, Integer>();
-            Scanner scanner = new Scanner(new FileReader("inventory.txt"));
+            Scanner scanner = new Scanner(new FileReader(DatabaseConstant.INVENTORY));
             while (scanner.hasNextLine()) {
                 String[] temp = scanner.nextLine().split(",");
                 int left = Integer.parseInt(temp[2]) + 50;
                 stocks.put(new Food(temp[0], Double.parseDouble(temp[1])), left);
             }
             scanner.close();
-            PrintWriter pw = new PrintWriter(new FileWriter("inventory.txt"));
+            PrintWriter pw = new PrintWriter(new FileWriter(DatabaseConstant.INVENTORY));
             for (Food food : stocks.keySet()) {
                 pw.println(food.getName() + "," + food.getPrice() + "," + stocks.get(food));
             }
@@ -136,7 +120,7 @@ public class Database {
                 use.put(result.getString("name"), result.getInt("quantity"));
             }
             Map<Food, Integer> stocks = new HashMap<Food, Integer>();
-            Scanner scanner = new Scanner(new FileReader("inventory.txt"));
+            Scanner scanner = new Scanner(new FileReader(DatabaseConstant.INVENTORY));
             while (scanner.hasNextLine()) {
                 String[] temp = scanner.nextLine().split(",");
                 int left = Integer.parseInt(temp[2]);
@@ -146,7 +130,7 @@ public class Database {
                 stocks.put(new Food(temp[0], Double.parseDouble(temp[1])), left);
             }
             scanner.close();
-            PrintWriter pw = new PrintWriter(new FileWriter("inventory.txt"));
+            PrintWriter pw = new PrintWriter(new FileWriter(DatabaseConstant.INVENTORY));
             for (Food food : stocks.keySet()) {
                 pw.println(food.getName() + "," + food.getPrice() + "," + stocks.get(food));
             }
