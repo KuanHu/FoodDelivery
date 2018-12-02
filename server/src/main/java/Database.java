@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 import model.Food;
 import model.Order;
+import model.User;
 
 public class Database {
     Connection conn;
@@ -148,7 +149,7 @@ public class Database {
             if (check != null && check.next()) {
                 return -2;
             } else {
-                return stat.executeUpdate("INSERT INTO users VALUES('" + account + "', '" + password + "')");
+                return stat.executeUpdate("INSERT INTO users (account, password) VALUES('" + account + "', '" + password + "')");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -161,7 +162,7 @@ public class Database {
             ResultSet check = stat.executeQuery("SELECT * FROM users WHERE account='" + account + "'");
             if (check != null && check.next()) {
                 if (check.getString("password").equals(password)) {
-                    return 1;
+                    return check.getInt("account_id");
                 } else {
                     return -1;
                 }
@@ -175,7 +176,7 @@ public class Database {
         return -1;
     }
 
-    public int insertOrder(String account, Order order) {
+    public int insertOrder(int accountId, Order order) {
         try {
             ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE order_id=(SELECT max(order_id) FROM orders)");
             if (check != null && check.next()) {
@@ -183,7 +184,7 @@ public class Database {
             } else {
                 order.setID(0);
             }
-            stat.executeUpdate("INSERT INTO orders VALUES(" + order.getID() + ", '" + account + "', " + order.getTotal() +", '" + order.getStatus() + "')");
+            stat.executeUpdate("INSERT INTO orders VALUES(" + order.getID() + ", '" + accountId + "', " + order.getTotal() +", '" + order.getStatus() + "')");
             for (Map.Entry<Food, Integer> entry : order.getIngredients().entrySet()) {
                 stat.executeUpdate("INSERT INTO order_detail VALUES(" + order.getID() + ", '" + entry.getKey().getName() + "', " + entry.getKey().getPrice() + ", " + entry.getValue() + ")");
             }
@@ -207,7 +208,11 @@ public class Database {
             ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE order_id=" + orderID);
             Order order = null;
             if(check.next()) {
-                order = new Order(check.getInt("order_id"), check.getString("account"), check.getString("status"), check.getDouble("total"));
+                int accountId = check.getInt("account_id");
+                ResultSet userCheck = stat.executeQuery("SELECT * FROM users WHERE account_id='" + accountId + "'");
+                userCheck.next();
+                User user = new User(userCheck.getInt("account_id"), userCheck.getString("account"), userCheck.getString("password"));
+                order = new Order(check.getInt("order_id"), user, check.getString("status"), check.getDouble("total"));
             }
             if (order != null) {
                 ResultSet single = stat.executeQuery("SELECT * FROM order_detail WHERE order_id=" + order.getID());
@@ -250,31 +255,21 @@ public class Database {
         }
     }
 
-    public ArrayList<Order> queryOrder(String account) {
+    public ArrayList<Order> queryOrderByAccountID(int accountId) {
         ArrayList<Order> orders = new ArrayList<Order>();
+        User user = null;
         try {
-            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE account='" + account + "' ORDER BY order_id");
-            while(check.next()) {
-                orders.add(new Order(check.getInt("order_id"), account, check.getString("status"), check.getDouble("total")));
-            }
-            for (Order order : orders) {
-                ResultSet single = stat.executeQuery("SELECT * FROM order_detail WHERE order_id=" + order.getID());
-                while(single.next()) {
-                    order.addIngredient(new Food(single.getString("name"), single.getDouble("price")), single.getInt("quantity"));
-                }
-            }
+            ResultSet check = stat.executeQuery("SELECT * FROM users WHERE account_id='" + accountId + "'");
+            check.next();
+            user = new User(check.getInt("account_id"), check.getString("account"), check.getString("password"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return orders;
-    }
 
-    public ArrayList<Order> queryOrderSubmitting() {
-        ArrayList<Order> orders = new ArrayList<Order>();
         try {
-            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE status='submitting' ORDER BY order_id");
+            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE account_id='" + accountId + "' ORDER BY order_id");
             while(check.next()) {
-                orders.add(new Order(check.getInt("order_id"), check.getString("account"), check.getString("status"), check.getDouble("total")));
+                orders.add(new Order(check.getInt("order_id"), user, check.getString("status"), check.getDouble("total")));
             }
             for (Order order : orders) {
                 ResultSet single = stat.executeQuery("SELECT * FROM order_detail WHERE order_id=" + order.getID());
@@ -297,12 +292,17 @@ public class Database {
         return 0;
     }
 
-    public ArrayList<Order> queryOrderReceiving() {
+    public ArrayList<Order> queryOrderByStatus(String status) {
         ArrayList<Order> orders = new ArrayList<Order>();
+        User user = null;
         try {
-            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE status='receiving' ORDER BY order_id");
+            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE status=" + status + " ORDER BY order_id");
             while(check.next()) {
-                orders.add(new Order(check.getInt("order_id"), check.getString("account"), check.getString("status"), check.getDouble("total")));
+                int accountId = check.getInt("account_id");
+                ResultSet userCheck = stat.executeQuery("SELECT * FROM users WHERE account_id='" + accountId + "'");
+                userCheck.next();
+                user = new User(userCheck.getInt("account_id"), userCheck.getString("account"), userCheck.getString("password"));
+                orders.add(new Order(check.getInt("order_id"), user, check.getString("status"), check.getDouble("total")));
             }
             for (Order order : orders) {
                 ResultSet single = stat.executeQuery("SELECT * FROM order_detail WHERE order_id=" + order.getID());
@@ -325,25 +325,6 @@ public class Database {
         return 0;
     }
 
-    public ArrayList<Order> queryOrderPreparing() {
-        ArrayList<Order> orders = new ArrayList<Order>();
-        try {
-            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE status='preparing' ORDER BY order_id");
-            while(check.next()) {
-                orders.add(new Order(check.getInt("order_id"), check.getString("account"), check.getString("status"), check.getDouble("total")));
-            }
-            for (Order order : orders) {
-                ResultSet single = stat.executeQuery("SELECT * FROM order_detail WHERE order_id=" + order.getID());
-                while(single.next()) {
-                    order.addIngredient(new Food(single.getString("name"), single.getDouble("price")), single.getInt("quantity"));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orders;
-    }
-
     public int updateOrderPreparing(int orderID) {
         try {
             return stat.executeUpdate("UPDATE orders SET status='packaging' WHERE order_id=" + orderID);
@@ -353,44 +334,6 @@ public class Database {
         return 0;
     }
 
-    public ArrayList<Order> queryOrderPackaging() {
-        ArrayList<Order> orders = new ArrayList<Order>();
-        try {
-            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE status='packaging' ORDER BY order_id");
-            while(check.next()) {
-                orders.add(new Order(check.getInt("order_id"), check.getString("account"), check.getString("status"), check.getDouble("total")));
-            }
-            for (Order order : orders) {
-                ResultSet single = stat.executeQuery("SELECT * FROM order_detail WHERE order_id=" + order.getID());
-                while(single.next()) {
-                    order.addIngredient(new Food(single.getString("name"), single.getDouble("price")), single.getInt("quantity"));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orders;
-    }
-
-    public ArrayList<Order> queryOrderFoodReady() {
-        ArrayList<Order> orders = new ArrayList<Order>();
-        try {
-            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE status='Food Ready' ORDER BY order_id");
-            while(check.next()) {
-                orders.add(new Order(check.getInt("order_id"), check.getString("account"), check.getString("status"), check.getDouble("total")));
-            }
-            for (Order order : orders) {
-                ResultSet single = stat.executeQuery("SELECT * FROM order_detail WHERE order_id=" + order.getID());
-                while(single.next()) {
-                    order.addIngredient(new Food(single.getString("name"), single.getDouble("price")), single.getInt("quantity"));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orders;
-    }
-
     public int updateOrderFoodReady(int orderID) {
         try {
             return stat.executeUpdate("UPDATE orders SET status='Finish' WHERE order_id=" + orderID);
@@ -398,25 +341,6 @@ public class Database {
             e.printStackTrace();
         }
         return 0;
-    }
-
-    public ArrayList<Order> queryOrderFinish() {
-        ArrayList<Order> orders = new ArrayList<Order>();
-        try {
-            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE status='Finish' ORDER BY order_id");
-            while(check.next()) {
-                orders.add(new Order(check.getInt("order_id"), check.getString("account"), check.getString("status"), check.getDouble("total")));
-            }
-            for (Order order : orders) {
-                ResultSet single = stat.executeQuery("SELECT * FROM order_detail WHERE order_id=" + order.getID());
-                while(single.next()) {
-                    order.addIngredient(new Food(single.getString("name"), single.getDouble("price")), single.getInt("quantity"));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orders;
     }
 
     public int updateOrderPackaging(int orderID) {

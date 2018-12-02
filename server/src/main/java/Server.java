@@ -82,24 +82,24 @@ public class Server {
                             writer.flush();
                         } else if (message.equals("insertOrder")) {
                             Order order = (Order) reader.readObject();
-                            String account = order.getAccount();
-                            System.out.println(database.insertOrder(account, order));
-                        } else if (message.equals("queryOrder")) {
+                            int accountId = order.getUser().getId();
+                            System.out.println(database.insertOrder(accountId, order));
+                        } else if (message.equals("queryOrderByAccountID")) {
                             // todo query order by account
-                            String account = reader.readUTF();
-                            ArrayList<Order> orders = database.queryOrder(account);
+                            int accountId = Integer.parseInt(reader.readUTF());
+                            ArrayList<Order> orders = database.queryOrderByAccountID(accountId);
                             writer.writeObject(orders);
                             writer.flush();
                         } else if (message.equals("queryAllOrder")) {
-                            ArrayList<Order> orders = database.queryOrderSubmitting();
+                            ArrayList<Order> orders = database.queryOrderByStatus("submitting");
                             writer.writeObject(orders);
-                            orders = database.queryOrderReceiving();
+                            orders = database.queryOrderByStatus("receiving");
                             writer.writeObject(orders);
-                            orders = database.queryOrderPreparing();
+                            orders = database.queryOrderByStatus("preparing");
                             writer.writeObject(orders);
-                            orders = database.queryOrderPackaging();
+                            orders = database.queryOrderByStatus("packaging");
                             writer.writeObject(orders);
-                            orders = database.queryOrderFoodReady();
+                            orders = database.queryOrderByStatus("Food Ready");
                             writer.writeObject(orders);
                             writer.flush();
                         } else if (message.equals("updateSubmitting")) {

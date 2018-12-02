@@ -12,7 +12,7 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private String account;
+    private User user;
 
     /**
      * 1. submitting, 2. receiving, 3. preparing, 4. packaging, 5. FoodReady, 6. Finish
@@ -25,17 +25,9 @@ public class Order implements Serializable {
 
     }
 
-    public Order(int id, String account, String status, Map<Food, Integer> ingredients, double total) {
+    public Order(int id, User user, String status, double total) {
         this.id = id;
-        this.account = account;
-        this.status = status;
-        this.ingredients = ingredients;
-        this.total = total;
-    }
-
-    public Order(int id, String account, String status, double total) {
-        this.id = id;
-        this.account = account;
+        this.user = user;
         this.status = status;
         this.ingredients = new HashMap<>();
         this.total = total;
@@ -49,8 +41,12 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public String getAccount() {
-        return this.account;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getStatus() {

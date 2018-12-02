@@ -3,7 +3,7 @@ public class DatabaseConstant {
     public static final String PROTOCAL = "jdbc:derby:";
 
     public static final String CREATE = "CREATE TABLE orders (order_id int primary key, "
-            + "account varchar(20),"
+            + "account_id int,"
             + "total double,"
             + "status varchar(20))";
 
@@ -12,7 +12,7 @@ public class DatabaseConstant {
             + "price double,"
             + "quantity int, primary key (order_id, name))";
 
-    public static final String CREATE_USER = "CREATE TABLE users (account_id int primary key,"
+    public static final String CREATE_USER = "CREATE TABLE users (account_id int primary key AUTO_INCREMENT,"
             + "account varchar(20)"
             + "password varchar(20))";
 
