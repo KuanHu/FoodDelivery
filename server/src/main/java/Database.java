@@ -310,7 +310,7 @@ public class Database {
                 ResultSet userCheck = stat.executeQuery("SELECT * FROM users WHERE account_id=" + accountId + "");
                 userCheck.next();
                 order.getUser().setAccount(userCheck.getString("account"));
-                order.getUser().setAccount(userCheck.getString("password"));
+                order.getUser().setPassword(userCheck.getString("password"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
