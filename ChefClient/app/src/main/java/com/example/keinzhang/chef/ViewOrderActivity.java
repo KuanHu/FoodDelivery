@@ -53,7 +53,8 @@ public class ViewOrderActivity extends AppCompatActivity {
                         HashMap<String, String> map = new HashMap<>();
                         map.put("order_id", order.getID() + "");
                         map.put("status", order.getStatus());
-                        map.put("account", order.getAccount());
+                        map.put("account", order.getUser().getAccount());
+                        map.put("customer_id", order.getUser().getId() + "");
                         StringBuilder orderedFoods = new StringBuilder();
                         boolean available = true;
                         boolean partial = false;
@@ -99,8 +100,8 @@ public class ViewOrderActivity extends AppCompatActivity {
                         adapter = new SimpleAdapter(ViewOrderActivity.this,
                                 mylist,
                                 R.layout.order_list_layout,
-                                new String[]{"order_id", "status", "ordered_foods", "total", "available", "account"},
-                                new int[]{R.id.order_id, R.id.status, R.id.ordered_foods, R.id.total, R.id.available, R.id.customer_name});
+                                new String[]{"order_id", "status", "ordered_foods", "total", "available", "account", "customer_id"},
+                                new int[]{R.id.order_id, R.id.status, R.id.ordered_foods, R.id.total, R.id.available, R.id.customer_name, R.id.customer_id});
                         Message message = new Message();
                         message.what = 0;
                         handler.sendMessage(message);

@@ -19,3 +19,37 @@ ChefClient/.idea
 /build
 /captures
 .externalNativeBuild
+#---------------------------------------
+#For Server
+*.class
+
+
+#---------------------------------------
+#For FoodDelivery Client Project
+#built application files
+# *.apk
+# *.ap_
+# *.dex
+# # Java class files
+# *.class
+# # generated files
+# FoodDeliveryClient/bin/
+# FoodDeliveryClient/gen/
+# # Local configuration file (sdk path, etc)
+# FoodDeliveryClient/local.properties
+# # Windows thumbnail db
+# FoodDeliveryClient/Thumbs.db
+# # OSX files
+# .DS_Store
+# # Android Studio
+# *.iml
+# .idea
+# #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+# FoodDeliveryClient/.gradle
+# FoodDeliveryClient/build/
+# FoodDeliveryClient/.navigation
+# FoodDeliveryClient/captures/
+# FoodDeliveryClient/output.json
+# #NDK
+# FoodDeliveryClient/obj/
+# FoodDeliveryClient/.externalNativeBuild
