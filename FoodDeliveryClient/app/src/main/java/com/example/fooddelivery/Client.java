@@ -30,7 +30,7 @@ public class Client
     private ObjectInputStream ois;
     public Client() {
         try {
-            socket = new Socket("10.110.55.230", 11111);
+            socket = new Socket("10.110.47.21", 8080);
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
 //            reader = new BufferedReader(new InputStreamReader(is));
@@ -66,10 +66,10 @@ public class Client
         }
     }
 
-    public ArrayList<Order> queryOrder(String account) {
+    public ArrayList<Order> queryOrder(int accountID) {
         try {
-            oos.writeUTF("queryOrder");
-            oos.writeUTF(account);
+            oos.writeUTF("queryOrderByAccountID");
+            oos.writeUTF(accountID +"");
             oos.flush();
             ArrayList<Order> orders =  (ArrayList<Order>) ois.readObject();
             for (Order order : orders) {

@@ -30,6 +30,7 @@ import java.util.Map;
 
 import model.Food;
 import model.Order;
+import model.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -111,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            Order order = new Order(0, LoginActivity.account, "submitting", foodsOrdered, total);
+                            User user = new User(LoginActivity.accountId);
+                            Order order = new Order(0, user, "submitting", foodsOrdered, total);
                             LoginActivity.client.insertOrder(order);
                             Intent intent = new Intent(MainActivity.this, ViewOrderActivity.class);
                             MainActivity.this.finish();

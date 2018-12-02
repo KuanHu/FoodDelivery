@@ -65,8 +65,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+
     public static Client client;
     public static String account;
+    public static int accountId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 handler.sendMessage(msg);
                             } else {
                                 account = mEmailView.getText().toString();
+                                accountId = result;
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                 LoginActivity.this.finish();
                                 startActivity(intent);

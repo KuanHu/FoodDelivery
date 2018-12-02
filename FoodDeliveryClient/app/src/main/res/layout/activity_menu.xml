@@ -13,15 +13,17 @@
         android:id="@+id/order"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
+        android:layout_height="256dp"
         android:layout_weight="1"
-        android:background="@drawable/orderonlineBTN"
+        android:background="@drawable/orderonlinebtn"
         android:elevation="0dp"
         android:text="@string/order" />
 
     <Button
         android:id="@+id/view_order_list"
         android:layout_width="match_parent"
+        android:layout_height="256dp"
         android:layout_weight="1"
-        android:background="@drawable/orderlistBTN"
+        android:background="@drawable/orderlistbtn"
         android:text="@string/order_list" />
 </LinearLayout>

@@ -29,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                if (hour >= 11 && hour <= 19) {
+                if (hour >= 0 && hour <= 24) {
                     Intent intent = new Intent(MenuActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {

@@ -39,7 +39,7 @@ public class ViewOrderActivity extends AppCompatActivity {
             public void run() {
                 if (Client.socket.isConnected()) {
                     mylist = new ArrayList<>();
-                    orders = LoginActivity.client.queryOrder(LoginActivity.account);
+                    orders = LoginActivity.client.queryOrder(LoginActivity.accountId);
                     inventory = LoginActivity.client.queryAllInventory();
 //                    inventory = new HashMap<>();
                     for (Order order : orders) {
@@ -47,7 +47,7 @@ public class ViewOrderActivity extends AppCompatActivity {
                         map.put("order_id", order.getID() + "");
                         Log.e("Test", order.getID() + "");
                         map.put("status", order.getStatus());
-                        map.put("account", order.getAccount());
+                        map.put("account", order.getUser().getAccount());
                         StringBuilder orderedFoods = new StringBuilder();
                         boolean available = true;
                         boolean partial = false;

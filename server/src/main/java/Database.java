@@ -26,16 +26,13 @@ public class Database {
         try {
             Class.forName(DatabaseConstant.EMBEDDED_DRIVER).newInstance();
             File file = new File(DatabaseConstant.DATABASE_PATH);
-            //Check if the user use this project at first time.
             if (!file.exists()) {
                 file.mkdirs();
-                conn = DriverManager.getConnection(DatabaseConstant.PROTOCAL + file+"/mydb.db"
-                        + ";create=true");
+                conn = DriverManager.getConnection(DatabaseConstant.PROTOCAL + file+"/mydb.db;create=true");
                 stat = conn.createStatement();
-                create();
+                initTable();
             } else {
-                conn = DriverManager.getConnection(DatabaseConstant.PROTOCAL + file+"/mydb.db"
-                        + ";create=false");
+                conn = DriverManager.getConnection(DatabaseConstant.PROTOCAL + file+"/mydb.db;create=false");
                 stat = conn.createStatement();
             }
         } catch (ClassNotFoundException e) {
@@ -49,13 +46,12 @@ public class Database {
         }
     }
 
-    public void create() {
+    public void initTable() {
         try {
             stat.execute(DatabaseConstant.CREATE);
             stat.execute(DatabaseConstant.CREATE_DETAIL);
             stat.execute(DatabaseConstant.CREATE_USER);
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -168,7 +164,7 @@ public class Database {
                 }
             } else {
                 insertUser(account, password);
-                return 0;
+                return loginOrRegister(account, password);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -184,7 +180,7 @@ public class Database {
             } else {
                 order.setID(0);
             }
-            stat.executeUpdate("INSERT INTO orders VALUES(" + order.getID() + ", '" + accountId + "', " + order.getTotal() +", '" + order.getStatus() + "')");
+            stat.executeUpdate("INSERT INTO orders VALUES(" + order.getID() + ", " + accountId + ", " + order.getTotal() +", '" + order.getStatus() + "')");
             for (Map.Entry<Food, Integer> entry : order.getIngredients().entrySet()) {
                 stat.executeUpdate("INSERT INTO order_detail VALUES(" + order.getID() + ", '" + entry.getKey().getName() + "', " + entry.getKey().getPrice() + ", " + entry.getValue() + ")");
             }
@@ -259,7 +255,8 @@ public class Database {
         ArrayList<Order> orders = new ArrayList<Order>();
         User user = null;
         try {
-            ResultSet check = stat.executeQuery("SELECT * FROM users WHERE account_id='" + accountId + "'");
+            ResultSet check = stat.executeQuery("SELECT * FROM users WHERE account_id=" + accountId + "");
+            System.out.println(accountId);
             check.next();
             user = new User(check.getInt("account_id"), check.getString("account"), check.getString("password"));
         } catch (SQLException e) {
@@ -267,7 +264,7 @@ public class Database {
         }
 
         try {
-            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE account_id='" + accountId + "' ORDER BY order_id");
+            ResultSet check = stat.executeQuery("SELECT * FROM orders WHERE account_id=" + accountId + " ORDER BY order_id");
             while(check.next()) {
                 orders.add(new Order(check.getInt("order_id"), user, check.getString("status"), check.getDouble("total")));
             }
@@ -300,7 +297,7 @@ public class Database {
             while(check.next()) {
                 int accountId = check.getInt("account_id");
                 ResultSet userCheck = stat.executeQuery("SELECT * FROM users WHERE account_id='" + accountId + "'");
-                userCheck.next();
+                check.next();
                 user = new User(userCheck.getInt("account_id"), userCheck.getString("account"), userCheck.getString("password"));
                 orders.add(new Order(check.getInt("order_id"), user, check.getString("status"), check.getDouble("total")));
             }
