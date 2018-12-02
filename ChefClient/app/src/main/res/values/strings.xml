@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chef</string>
+    <string name="app_name">ChefClient</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Username</string>
     <string name="prompt_password">Address(xx st, apt.xx, 02120)</string>
@@ -13,7 +13,20 @@
         completions."
     </string>
 
+    <string name="finish">Submit</string>
+    <string name="order">Order</string>
+    <string name="order_list">View Order List</string>
+    <string name="order_id">Order ID: </string>
+    <string name="foods_ordered">Ordered Foods: </string>
+    <string name="status">Status: </string>
+    <string name="total_price">Total Price: $</string>
+
+
+
     <string name="title_activity_main">ele.bos</string>
     <string name="dummy_button">Skip</string>
     <string name="dummy_content">ele.me</string>
+
+
+
 </resources>

@@ -24,7 +24,7 @@ public class Client
     private ObjectInputStream ois;
     public Client() {
         try {
-            socket = new Socket("10.110.39.70", 11111);
+            socket = new Socket("10.110.39.70", 11112);
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
 //            reader = new BufferedReader(new InputStreamReader(is));

@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+                if (id == EditorInfo.IME_NULL) {
                     attemptLogin();
                     return true;
                 }
@@ -97,7 +97,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
         }).start();
-
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override

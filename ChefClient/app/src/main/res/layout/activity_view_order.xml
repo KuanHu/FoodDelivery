@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewOrderActivity">
+    tools:context="com.example.keinzhang.chef.ViewOrderActivity"
+    >
+
+    <ListView
+        android:id="@+id/orders_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </android.support.constraint.ConstraintLayout>
