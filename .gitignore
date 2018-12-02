@@ -9,6 +9,7 @@ ChefClient/.DS_Store
 ChefClient/build
 ChefClient/captures
 ChefClient/.externalNativeBuild
+ChefClient/.idea
 *.iml
 .gradle
 /local.properties
