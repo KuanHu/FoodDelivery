@@ -9,9 +9,12 @@ ChefClient/.DS_Store
 ChefClient/build
 ChefClient/captures
 ChefClient/.externalNativeBuild
-.DS_Store
+*.iml
 .gradle
-.idea/caches/build_file_checksums.ser
-.idea/libraries
-.idea/modules.xml
-.idea/workspace.xml
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
