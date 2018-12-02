@@ -1,4 +1,9 @@
 #---------------------------------------
+#For Server
+*.class
+
+
+#---------------------------------------
 #For FoodDelivery Client Project
 #built application files
 *.apk
