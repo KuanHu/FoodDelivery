@@ -85,9 +85,9 @@ public class Server {
                             String account = order.getAccount();
                             System.out.println(database.insertOrder(account, order));
                         } else if (message.equals("queryOrder")) {
+                            // todo query order by account
                             String account = reader.readUTF();
                             ArrayList<Order> orders = database.queryOrder(account);
-                            System.out.println(orders.size());
                             writer.writeObject(orders);
                             writer.flush();
                         } else if (message.equals("queryAllOrder")) {
@@ -100,8 +100,6 @@ public class Server {
                             orders = database.queryOrderPackaging();
                             writer.writeObject(orders);
                             orders = database.queryOrderFoodReady();
-                            writer.writeObject(orders);
-                            orders = database.queryOrderFinish();
                             writer.writeObject(orders);
                             writer.flush();
                         } else if (message.equals("updateSubmitting")) {
