@@ -54,7 +54,7 @@ public class ViewOrderActivity extends AppCompatActivity {
                         map.put("order_id", order.getID() + "");
                         map.put("status", order.getStatus());
                         map.put("account", order.getUser().getAccount());
-                        map.put("customer_id", order.getUser().getId() + "");
+                        map.put("customer_id",  1000000 + order.getUser().getId() +"");
                         StringBuilder orderedFoods = new StringBuilder();
                         boolean available = true;
                         boolean partial = false;
@@ -109,6 +109,8 @@ public class ViewOrderActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
+
         orderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

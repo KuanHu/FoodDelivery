@@ -22,4 +22,5 @@ public class DatabaseConstant {
     public static final String DATABASE_PATH = "./rsdb";
 
     public static final String INVENTORY = "inventory.txt";
+
 }

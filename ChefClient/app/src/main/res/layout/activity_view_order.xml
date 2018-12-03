@@ -5,11 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.keinzhang.chef.ViewOrderActivity"
+    android:background="@drawable/all_page_background"
+    android:theme="@android:style/Theme.Translucent"
     >
 
     <ListView
         android:id="@+id/orders_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:divider="@android:color/transparent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 </android.support.constraint.ConstraintLayout>
