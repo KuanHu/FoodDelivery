@@ -1,14 +1,20 @@
 package com.example.keinzhang.chef;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,9 +22,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.keinzhang.chef.R;
@@ -41,6 +51,8 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
     private ArrayList<Map<String, String>> mylist;
     private SimpleAdapter adapter;
     private Map<Food, Integer> inventory;
+
+    private PopupWindow mPopupWindow;
 
 
     @Override
@@ -191,6 +203,9 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
     private void deleteOrder(Map<String,String> temp) {
     }
 
+
+
+
     private void showUpdateDialog() {
         if(!temp.get("available").equals("Available")){
             Message msg = new Message();
@@ -207,7 +222,8 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
 
         spinner = (Spinner)view.findViewById(R.id.statusSpinner);
 
-        final String[] statusArray={"receiving","preparing","packaging","FoodReady","Finish"};
+        final String[] statusArray={"receiving","preparing","Finish"};
+        final String[] statusArrayForWindow={"receiving","preparing","packaging","Food Ready","Finish"};
         spinner.setOnItemSelectedListener(this);
 
         //Creating the ArrayAdapter instance having the status list
@@ -217,6 +233,16 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
         spinner.setAdapter(aa);
 
         alertDialog.setView(view);
+
+
+        final Handler mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message message) {
+                // This is where you do your work in the UI thread.
+                // Your worker tells you in the message what to do.
+                Toast.makeText(getApplicationContext(), "You cannot update to previous/current status", Toast.LENGTH_LONG).show();
+            }
+        };
 
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
@@ -229,9 +255,49 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                         String currentStatus = temp.get("status");
                         String settingStatus = String.valueOf(spinner.getSelectedItem());
                         int settingIndex = spinner.getSelectedItemPosition();
-                        int currentIndex = findIndexOfArray(settingStatus, statusArray);
+                        int currentIndex = findIndexOfArray(currentStatus, statusArrayForWindow);
                         if (settingIndex <= currentIndex) {
-                            Toast.makeText(getApplicationContext(), "You cannot update to previous/current status", Toast.LENGTH_LONG).show();
+
+                            Message msg = new Message();
+                            msg.what = 4;
+                            handler.sendMessage(msg);
+//                            new AlertDialog.Builder(ViewOrderActivity.this).setTitle("You cannot set to the previous status!")
+//                                    .setIcon(android.R.drawable.ic_dialog_info)
+//                                    .setNegativeButton("Cancel", null).show();
+//                            Context mContext = getApplicationContext();
+////                            Toast.makeText(getApplicationContext(), "You cannot update to previous/current status", Toast.LENGTH_LONG).show();
+//                            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+//
+//
+//                            // Get the application context
+//                            // Inflate the custom layout/view
+//                            View customView = inflater.inflate(R.layout.popup_window,null);
+//
+//                            mPopupWindow = new PopupWindow(
+//                                    customView,
+//                                    ActionBar.LayoutParams.WRAP_CONTENT,
+//                                    ActionBar.LayoutParams.WRAP_CONTENT
+//                            );
+//
+//                            // Set an elevation value for popup window
+//                            // Call requires API level 21
+//                            if(Build.VERSION.SDK_INT>=21){
+//                                mPopupWindow.setElevation(5.0f);
+//                            }
+//
+//                            // Get a reference for the custom view close button
+//                            ImageButton closeButton = (ImageButton) customView.findViewById(R.id.ib_close);
+//
+//                            // Set a click listener for the popup window close button
+//                            closeButton.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View view) {
+//                                    // Dismiss the popup window
+//                                    mPopupWindow.dismiss();
+//                                }
+//                            });
+//
+//                            mPopupWindow.showAtLocation(view, Gravity.CENTER,0,0);
                         } else if (currentStatus.equals("submitting")) {
                             if (settingStatus == "receiving") {
                                 LoginActivity.client.updateSubmittingOrder(Integer.parseInt(temp.get("order_id")));
@@ -239,27 +305,21 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                                 message.what = 1;
                                 handler.sendMessage(message);
                             } else if (settingStatus == "preparing") {
-                                LoginActivity.client.updateSubmittingOrder(Integer.parseInt(temp.get("order_id")));
-                                Message message = new Message();
-                                message.what = 1;
-                                handler.sendMessage(message);
                                 LoginActivity.client.updateReceivingOrder(Integer.parseInt(temp.get("order_id")));
                                 LoginActivity.client.updateStock(Integer.parseInt(temp.get("order_id")));
                                 Message message2 = new Message();
                                 message2.what = 1;
                                 handler.sendMessage(message2);
                             } else {
-//                                Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait about 120-240 seconds for food to be prepared", Toast.LENGTH_LONG).show();
+                                Message message2 = new Message();
+                                message2.what = 5;
+                                handler.sendMessage(message2);
                             }
                         } else if (currentStatus.equals("preparing")) {
-//                            Toast.makeText(getApplicationContext(), "You need to wait until it prepared", Toast.LENGTH_LONG).show();
                             Message message = new Message();
-                            message.what = 3;
+                            message.what = 6;
                             handler.sendMessage(message);
-                            Message message2 = new Message();
-                            message2.what = 1;
-                            handler.sendMessage(message2);
-                        } else if (currentIndex >= 2) {
+                        } else if (currentIndex >= 1) {
                             int step = settingIndex - currentIndex;
                             int start = 0;
                             while (start < step) {
@@ -285,8 +345,8 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                             message.what = 1;
                             handler.sendMessage(message);
                         }
-                        finish();
-                        startActivity(getIntent());
+//                        finish();
+//                        startActivity(getIntent());
 //                if (temp.get("status").equals("submitting")) {
 //                    LoginActivity.client.updateSubmittingOrder(Integer.parseInt(temp.get("order_id")));
 //                } else if (temp.get("status").equals("receiving")) {
@@ -319,7 +379,7 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
         int index = -1;
         for (int i=0;i<statusArray.length;i++) {
             if (statusArray[i].equals(currentStatus)) {
-                return index;
+                return i;
             }
         }
         return -1;
@@ -370,6 +430,22 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                     break;
                 case 3:
                     Toast.makeText(ViewOrderActivity.this, "The order is preparing.", Toast.LENGTH_SHORT).show();
+                    break;
+                case 4:
+                    Toast.makeText(ViewOrderActivity.this, "You cannot set to the previous status", Toast.LENGTH_SHORT).show();
+                    break;
+                case 5:
+                    Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait about 120-240 seconds for food to be prepared1", Toast.LENGTH_LONG).show();
+                    break;
+                case 6:
+//                    Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food ready to be pick up!", Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food ready to be pick up!", Toast.LENGTH_LONG);
+                    View view = toast.getView();
+//                    view.setBackgroundResource(R.drawable.pigicon);
+                    TextView text = (TextView) view.findViewById(android.R.id.message);
+                    text.setTextColor(Color.parseColor("#FFF72600"));
+                    /*Here you can do anything with above textview like text.setTextColor(Color.parseColor("#000000"));*/
+                    toast.show();
                     break;
                 default:
                     break;
