@@ -134,4 +134,7 @@ public class Client
             e.printStackTrace();
         }
     }
+
+    public void deleteOrder(int order_id) {
+    }
 }
