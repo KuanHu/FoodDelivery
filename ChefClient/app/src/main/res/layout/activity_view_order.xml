@@ -16,6 +16,7 @@
         android:layout_margin="8dp"
         android:divider="@android:color/transparent"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>
