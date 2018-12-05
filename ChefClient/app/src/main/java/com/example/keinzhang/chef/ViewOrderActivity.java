@@ -439,7 +439,7 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                     break;
                 case 6:
 //                    Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food ready to be pick up!", Toast.LENGTH_LONG).show();
-                    Toast toast = Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food ready to be pick up!", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food to be pick up!", Toast.LENGTH_LONG);
                     View view = toast.getView();
 //                    view.setBackgroundResource(R.drawable.pigicon);
                     TextView text = (TextView) view.findViewById(android.R.id.message);

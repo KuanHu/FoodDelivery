@@ -33,26 +33,23 @@
             android:textAllCaps="true"
             android:textStyle="normal" />
 
-        <!--<TextView-->
-        <!--android:id="@+id/status_tag"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:gravity="left"-->
-        <!--android:text="@string/status"-->
-        <!--android:textStyle="italic" />-->
-
+        <TextView
+            android:id="@+id/status_tag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_marginBottom="10dp"
+            android:text="@string/status" />
         <TextView
             android:id="@+id/status"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:background="@drawable/order_status_view"
-            android:gravity="center"
-            android:text="status"
-            android:textAllCaps="true"
-            android:textColor="#fffefe"
-            android:textStyle="bold" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="" />
 
     </LinearLayout>
 
@@ -62,22 +59,20 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/customer_id_tag"
-            android:layout_width="match_parent"
+            android:id="@+id/customer_name_tag"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_weight="0.66"
-            android:text="Customer:"
-            android:textStyle="bold" />
+            android:layout_marginBottom="10dp"
+            android:text="Customer Name: " />
 
         <TextView
             android:id="@+id/customer_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_weight="0.33"
-            android:text="kiki"
-            android:textStyle="normal" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -89,28 +84,26 @@
             android:id="@+id/ordered_foods_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.66"
-            android:text="@string/foods_ordered"
-            android:textStyle="bold" />
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:text="@string/foods_ordered" />
 
         <TextView
             android:id="@+id/available"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.33"
-            android:gravity="left"
-            android:text="available"
-            android:textStyle="normal" />
+            android:layout_marginBottom="10dp"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:text="" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/ordered_foods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/food_order"
-        android:gravity="left"
-        android:text="food "
-        android:textStyle="italic" />
+        android:layout_marginBottom="10dp"
+        android:text="" />
 
     <LinearLayout
         android:layout_width="match_parent"
