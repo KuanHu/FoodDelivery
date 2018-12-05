@@ -20,4 +20,8 @@
     <string name="foods_ordered">Ordered Foods: </string>
     <string name="status">Status: </string>
     <string name="total_price">Total Price: $</string>
+
+    <string name="title_activity_main">ele.bos</string>
+    <string name="dummy_button">Skip</string>
+    <string name="dummy_content">ele.me</string>
 </resources>
