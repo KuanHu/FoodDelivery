@@ -3,7 +3,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Username</string>
     <string name="prompt_password">Address(xx st, apt.xx, 02120)</string>
-    <string name="action_sign_in">Starting Order</string>
+    <string name="action_sign_in">Check Orders</string>
     <string name="action_sign_in_short">order</string>
     <string name="error_invalid_email">This username is invalid</string>
     <string name="error_invalid_password">Please give us the street name and apt number.</string>

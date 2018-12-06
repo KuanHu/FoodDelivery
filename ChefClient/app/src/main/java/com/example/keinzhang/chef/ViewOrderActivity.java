@@ -254,7 +254,7 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                     public void run() {
                         String currentStatus = temp.get("status");
                         String settingStatus = String.valueOf(spinner.getSelectedItem());
-                        int settingIndex = spinner.getSelectedItemPosition();
+                        int settingIndex = findIndexOfArray(settingStatus, statusArrayForWindow);
                         int currentIndex = findIndexOfArray(currentStatus, statusArrayForWindow);
                         if (settingIndex <= currentIndex) {
 
@@ -317,20 +317,18 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                             }
                         } else if (currentStatus.equals("preparing")) {
                             Message message = new Message();
+                            message.what = 5;
+                            handler.sendMessage(message);
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
+                        } else if (currentIndex >= 1) {
+                            Message message = new Message();
                             message.what = 6;
                             handler.sendMessage(message);
-                        } else if (currentIndex >= 1) {
-                            int step = settingIndex - currentIndex;
-                            int start = 0;
-                            while (start < step) {
-                                Message message = new Message();
-                                message.what = 3;
-                                handler.sendMessage(message);
-                                Message message2 = new Message();
-                                message2.what = 1;
-                                handler.sendMessage(message2);
-                                start++;
-                            }
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
                         }else if(currentStatus.equals("receiving")){
                             if(settingIndex > 2){
                                 return;
@@ -344,6 +342,7 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                             Message message = new Message();
                             message.what = 1;
                             handler.sendMessage(message);
+                            ViewOrderActivity.this.recreate();
                         }
 //                        finish();
 //                        startActivity(getIntent());
@@ -435,11 +434,11 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                     Toast.makeText(ViewOrderActivity.this, "You cannot set to the previous status", Toast.LENGTH_SHORT).show();
                     break;
                 case 5:
-                    Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait about 120-240 seconds for food to be prepared1", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait about 120-240 seconds for food to be prepared!", Toast.LENGTH_LONG).show();
                     break;
                 case 6:
 //                    Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food ready to be pick up!", Toast.LENGTH_LONG).show();
-                    Toast toast = Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food ready to be pick up!", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food to be pick up!", Toast.LENGTH_LONG);
                     View view = toast.getView();
 //                    view.setBackgroundResource(R.drawable.pigicon);
                     TextView text = (TextView) view.findViewById(android.R.id.message);
