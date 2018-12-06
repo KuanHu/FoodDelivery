@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.fooddelivery.ViewOrderActivity"
     android:background="@drawable/all_page_background"
-    android:theme="@android:style/Theme.Translucent"
-    >
+    android:theme="@android:style/Theme.Translucent">
 
     <ListView
         android:id="@+id/orders_list"
