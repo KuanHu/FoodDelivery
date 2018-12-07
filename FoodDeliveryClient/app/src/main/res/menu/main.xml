@@ -2,6 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/logout"
-        app:showAsAction="always"
+        app:showAsAction="never"
         android:title="Log out"/>
+    <item android:id="@+id/refresh"
+        app:showAsAction="never"
+        android:title="Refresh"/>
 </menu>

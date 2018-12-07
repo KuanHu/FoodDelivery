@@ -72,7 +72,8 @@ public class Client
             oos.writeUTF(accountID +"");
             oos.flush();
             ArrayList<Order> orders =  (ArrayList<Order>) ois.readObject();
-            for (Order order : orders) {
+            ArrayList<Order> order1 = new ArrayList<Order>(orders);
+            for (Order order : order1) {
                 if (order.getStatus().equals("Food Ready")) {
                     orders.remove(order);
                     orders.add(0, order);

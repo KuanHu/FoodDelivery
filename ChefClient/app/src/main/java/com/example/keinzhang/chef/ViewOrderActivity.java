@@ -405,9 +405,10 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                 ViewOrderActivity.this.finish();
                 startActivity(intent);
                 return true;
-            case R.id.edit_inventory:
-                intent = new Intent(ViewOrderActivity.this, ModifyMenuActivity.class);
-                startActivity(intent);
+            case R.id.refresh:
+                Intent intent2 = new Intent(ViewOrderActivity.this, ViewOrderActivity.class);
+                ViewOrderActivity.this.finish();
+                startActivity(intent2);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -437,13 +438,10 @@ public class ViewOrderActivity extends AppCompatActivity implements AdapterView.
                     Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait about 120-240 seconds for food to be prepared!", Toast.LENGTH_LONG).show();
                     break;
                 case 6:
-//                    Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food ready to be pick up!", Toast.LENGTH_LONG).show();
                     Toast toast = Toast.makeText(getApplicationContext(), "You cannot update to this status, you need to wait for the food to be pick up!", Toast.LENGTH_LONG);
                     View view = toast.getView();
-//                    view.setBackgroundResource(R.drawable.pigicon);
                     TextView text = (TextView) view.findViewById(android.R.id.message);
                     text.setTextColor(Color.parseColor("#FFF72600"));
-                    /*Here you can do anything with above textview like text.setTextColor(Color.parseColor("#000000"));*/
                     toast.show();
                     break;
                 default:
