@@ -2,17 +2,20 @@ package com.example.fooddelivery;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -176,6 +179,30 @@ public class ViewOrderActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                try {
+                    Client.socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                LoginActivity.client = null;
+                Intent intent = new Intent(ViewOrderActivity.this, LoginActivity.class);
+                ViewOrderActivity.this.finish();
+                startActivity(intent);
+                return true;
+            case R.id.refresh:
+                Intent intent2 = new Intent(ViewOrderActivity.this, ViewOrderActivity.class);
+                ViewOrderActivity.this.finish();
+                startActivity(intent2);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private Handler handler = new Handler() {
