@@ -30,7 +30,7 @@ public class Client
     private ObjectInputStream ois;
     public Client() {
         try {
-            socket = new Socket("10.110.126.38", 8080);
+            socket = new Socket("104.196.71.17", 8080);
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
 //            reader = new BufferedReader(new InputStreamReader(is));
